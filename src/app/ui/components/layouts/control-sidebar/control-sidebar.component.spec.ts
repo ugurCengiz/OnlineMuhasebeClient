@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BlankComponent } from './blank.component';
+import { ControlSidebarComponent } from './control-sidebar.component';
 
-describe('BlankComponent', () => {
-  let component: BlankComponent;
-  let fixture: ComponentFixture<BlankComponent>;
+describe('ControlSidebarComponent', () => {
+  let component: ControlSidebarComponent;
+  let fixture: ComponentFixture<ControlSidebarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ BlankComponent ]
+      imports: [ ControlSidebarComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BlankComponent);
+    fixture = TestBed.createComponent(ControlSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

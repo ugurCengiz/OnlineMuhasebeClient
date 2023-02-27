@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-blank',
+  selector: 'app-footer',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './blank.component.html',
-  styleUrls: ['./blank.component.css']
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.css']
 })
-export class BlankComponent {
+export class FooterComponent {
 
-  
 }
