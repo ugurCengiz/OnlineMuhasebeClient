@@ -9,7 +9,7 @@ import { LoginResponseModel } from '../models/login-response.model';
 })
 export class AuthService {
 
-  api : string = "http://localhost:5248/api/Aut/Login";
+  api : string = "Aut/Login";
   constructor(
     private _http: GenericHttpService,
     private _router:Router,

@@ -18,7 +18,7 @@ export class ToastrService {
           break;
 
           case ToastrType.Warning:          
-            toastr.info(title,message)           
+            toastr.Warning(title,message)           
             break;
 
           case ToastrType.Error:         
@@ -26,7 +26,7 @@ export class ToastrService {
             break;
 
           case ToastrType.Info:
-            toastr.error(title,message)         
+            toastr.info(title,message)         
             break;
          
           
