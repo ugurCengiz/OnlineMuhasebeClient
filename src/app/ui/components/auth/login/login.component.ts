@@ -28,6 +28,7 @@ export class LoginComponent {
 
   login(form:NgForm){
     if(form.valid){
+      this.isloading=true
      this._auth.login(form.value);
     } 
   }

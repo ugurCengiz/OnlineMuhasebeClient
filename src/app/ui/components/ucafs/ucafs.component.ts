@@ -12,12 +12,20 @@ import { ValidInputDirective } from 'src/app/common/directives/valid-input.direc
 import { LoadingButtonComponent } from 'src/app/common/components/loading-button/loading-button.component';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 import { RemoveByIdUCAFModel } from './models/remove-by-id-ucaf.mode';
+import { SwalService } from 'src/app/common/services/swal.service';
 
 
 @Component({
   selector: 'app-ucafs',
   standalone: true,
-  imports: [CommonModule, BlankComponent, SectionComponent,UcafPipe,FormsModule,ValidInputDirective,LoadingButtonComponent],
+  imports: [
+    CommonModule, 
+    BlankComponent, 
+    SectionComponent,
+    UcafPipe,
+    FormsModule,
+    ValidInputDirective,
+    LoadingButtonComponent],
   templateUrl: './ucafs.component.html',
   styleUrls: ['./ucafs.component.css'],
 })
@@ -36,13 +44,16 @@ export class UcafsComponent implements OnInit {
   ];
   ucafType:string="M"
   ucafs:UcafModel[]=[]
+  updateModel:UcafModel = new UcafModel;
   filterText:string="";
   isAddForm: boolean= false;
+  isUpdateForm:boolean=false;
   isLoading:boolean=false
 
   constructor(
     private _ucaf:UcafService,
-    private _toastr : ToastrService
+    private _toastr : ToastrService,    
+    private _swal:SwalService
   ){}
   ngOnInit(): void {
     this.getAll();
@@ -51,7 +62,6 @@ export class UcafsComponent implements OnInit {
   getAll(){
    this._ucaf.getAll(res=>this.ucafs=res.data)
   }
-
 
   showAddForm(){
     this.isAddForm= true;
@@ -66,7 +76,8 @@ export class UcafsComponent implements OnInit {
       model.name= form.controls["name"].value;
 
       this._ucaf.add(model,(res)=>{
-        form.reset();
+        form.controls["code"].setValue("");
+        form.controls["name"].setValue("");
         this.ucafType="M";
         this.getAll();
         this.isLoading=false
@@ -76,17 +87,52 @@ export class UcafsComponent implements OnInit {
     }
   }
 
-
-  removeById(id:string){
-    var result = confirm("Silme işlemini yapmak istiyor musunuz?")
-    if(result){
-      let model= new RemoveByIdUCAFModel();
-      model.id=id;
-
-      this._ucaf.removeById(model,res=>{
+  update(form:NgForm){
+    if(form.valid){
+      this.isLoading=true;
+     
+      this._ucaf.update(this.updateModel,(res)=>{
+       this.cancel();
         this.getAll();
-        this._toastr.toastr(ToastrType.Info,res.message,"Silme Başarılı")
+        this.isLoading=false
+        this._toastr.toastr(ToastrType.Info,res.message,"Başarılı")
       })
     }
   }
+
+  get(model:UcafModel){
+   this.updateModel = {...model};
+   this.isUpdateForm=true;
+   this.isAddForm=false;
+  }
+
+  removeById(id:string){
+    this._swal.callSwal("Sil","Sil?","Hesap planı kodunu silmek istiyor musunuz ?",()=>
+    {
+       let model= new RemoveByIdUCAFModel();
+        model.id=id;
+  
+        this._ucaf.removeById(model,res=>{
+          this.getAll();
+          this._toastr.toastr(ToastrType.Info,res.message,"Silme Başarılı")
+        })
+      }
+    
+  )}
+
+  cancel(){
+    this.isAddForm=false;
+    this.isUpdateForm=false;
+  }
+
+  SetTrClass(type:String){
+    if(type=="A")
+    return "text-danger"
+    else if(type =="G")
+    return "text-primary"
+    else
+    return ""
+  }
+
+
 }

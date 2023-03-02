@@ -1,45 +1,160 @@
-<app-blank title="Hesap Planı" [navs]="navs">
-    <app-section sectionTitle="Hesap Planı Ekleme" *ngIf="isAddForm">
-        <form #addForm="ngForm" autocomplete="off" (ngSubmit)="add(addForm)">
-            <div class="row">
-                <div class="col-md-2">
-                    <label for="code">Hesap Planı Kodu </label>
-                    <input ngModel type="text" #code name="code" required minlength="5" class="form-control" [validInput]="code.validity.valid">
-                </div>
-                <div class="col-md-2">
-                    <label for="type">Tipi</label>
-                    <select class="form-control" ngModel name="type" #type  [(ngModel)]="ucafType">
-                        <option value="M">Muavin</option>
-                        <option value="G">Group</option>
-                    </select>
-                </div>
-                <div class="col-md-5">
-                    <label for="name" >Hesap Planı Adı</label>
-                    <input type="text" class="form-control" ngModel name="name" #name [validInput]="name.validity.valid" required minlength="3">
-                </div>
-                <div class="col-md-3">
-                   <label>İşlemler</label>
-                   <app-loading-button [form]="addForm" [isloading]="isLoading" btnName="Kaydet" btnLoadingDescription="Kaydediliyor..."></app-loading-button>
-                   
-                </div>
-            </div>
-        </form>
+<app-blank  [navs]="navs">
+  <app-section sectionTitle="Hesap Planı Ekleme" *ngIf="isAddForm">
+    <form #addForm="ngForm" autocomplete="off" (ngSubmit)="add(addForm)">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="code">Hesap Planı Kodu </label>
+          <input
+            ngModel
+            type="text"
+            #code
+            name="code"
+            required
+            minlength="5"
+            class="form-control"
+            [validInput]="code.validity.valid"
+          />
+          <div class="invalid-feedback">
+              Kod alanı en az 5 karakter olmalıdır!
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="type">Tipi</label>
+          <select
+            class="form-control"
+            ngModel
+            name="type"
+            #type
+            [(ngModel)]="ucafType"
+          >
+            <option value="M">Muavin</option>
+            <option value="G">Group</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="name">Hesap Planı Adı</label>
+          <input
+            type="text"
+            class="form-control"
+            ngModel
+            name="name"
+            #name
+            [validInput]="name.validity.valid"
+            required
+            minlength="3"
+          />
+          <div class="invalid-feedback">
+            Hesap planı adı en az 3 karakter olmalıdır!
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label>İşlemler</label>
+          <app-loading-button
+            [form]="addForm"
+            [isloading]="isLoading"
+            btnName="Kaydet"
+            btnLoadingDescription="Kaydediliyor..."
+          ></app-loading-button>
+        </div>
+        <div class="col-md-2">
+          <label>İptal</label>
+          <button class="btn btn-outline-danger w-100" (click)="cancel()">
+            <i class="fa fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </app-section>
+  <app-section sectionTitle="Hesap Planı Güncelleme" *ngIf="isUpdateForm">
+    <form #updateForm="ngForm" autocomplete="off" (ngSubmit)="update(updateForm)">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="code">Hesap Planı Kodu </label>
+          <input
+            [(ngModel)]="updateModel.code"
+            type="text"
+            #code
+            name="code"
+            required
+            minlength="5"
+            class="form-control"
+            [validInput]="code.validity.valid"
+          />
+          <div class="invalid-feedback">
+              Kod alanı en az 5 karakter olmalıdır!
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="type">Tipi</label>
+          <select
+            class="form-control"
+            ngModel
+            name="type"
+            #type
+            [(ngModel)]="updateModel.type"
+          >
+            <option value="M">Muavin</option>
+            <option value="G">Group</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="name">Hesap Planı Adı</label>
+          <input
+            type="text"
+            class="form-control"
+            ngModel
+            name="name"
+            #name
+            [validInput]="name.validity.valid"
+            required
+            minlength="3"
+            [(ngModel)]="updateModel.name"
+          />
+          <div class="invalid-feedback">
+            Hesap planı adı en az 3 karakter olmalıdır!
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label>İşlemler</label>
+          <app-loading-button
+            [form]="updateForm"
+            btnClass="btn btn-outline-info w-100"
+            [isloading]="isLoading"
+            btnName="Güncelle"
+            btnLoadingClass="btn btn-outline-info w-100"
+            btnLoadingDescription="Güncelleniyor..."
+            iconClass="fa fa-check"
+          ></app-loading-button>
+        </div>
+        <div class="col-md-2">
+          <label>İptal</label>
+          <button class="btn btn-outline-danger w-100" (click)="cancel()">
+            <i class="fa fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </app-section>
 
-    </app-section>
-  <app-section sectionTitle="Hesap Planı Listesi" >
+  <app-section sectionTitle="Hesap Planı Listesi">
     <div class="form group float-left">
-        <button class="btn btn-outline-primary" (click)="showAddForm()" >
-            <i class="fa fa-plus"></i>
-        </button>
+      <button class="btn btn-outline-primary" *ngIf="!isAddForm && !isUpdateForm" (click)="showAddForm()">
+        <i class="fa fa-plus"></i>
+      </button>
     </div>
     <div class="form-group float-right col-md-4">
-        <input type="search" placeholder="Aranacak değer..." [(ngModel)]="filterText" class="form-control">
+      <input
+        type="search"
+        placeholder="Aranacak değer..."
+        [(ngModel)]="filterText"
+        class="form-control search"
+      />
     </div>
     <div class="form-group">
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>>Code</th>
+            <th>Code</th>
             <th>Tipi</th>
             <th>Açıklama</th>
             <th>İşlemler</th>
@@ -52,22 +167,28 @@
               let ucaf of ucafs | ucafPipe : filterText;
               let index = index
             "
+            [class]= "SetTrClass(ucaf.type)"
           >
             <td [innerText]="ucaf.code"></td>
             <td [innerText]="ucaf.type"></td>
             <td [innerText]="ucaf.name"></td>
             <td>
-              <button class="btn btn-outline-warning btn-sm" title="Güncelle">
-                <i class="fa fa-edit"></i>
-              </button>
-              <button class="btn btn-outline-danger btn-sm mx-1" title="Sil" (click)="removeById(ucaf.id)">
-                <i class="fa fa-trash"></i>
-              </button>
+              <div *ngIf="ucaf.type != 'A' && !isUpdateForm">
+                <button class="btn btn-outline-warning btn-sm" title="Güncelle" (click)="get(ucaf)">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button
+                  class="btn btn-outline-danger btn-sm mx-1"
+                  title="Sil"
+                  (click)="removeById(ucaf.id)"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
-    
-  </div>
+    </div>
   </app-section>
 </app-blank>
