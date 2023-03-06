@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 
 
 
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -17,10 +18,11 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
   
-  isloading: boolean = false;
+  
 
   constructor(
-    private _auth : AuthService,
+    private _auth : AuthService
+   
   
   ){
    
@@ -28,7 +30,7 @@ export class LoginComponent {
 
   login(form:NgForm){
     if(form.valid){
-      this.isloading=true
+      
      this._auth.login(form.value);
     } 
   }

@@ -13,12 +13,16 @@ export class LoginResponseService {
     private _crypto:CryptoService,
     
   ){
-   let loginResponseString = _crypto.decrypto(localStorage.getItem("accessToken").toString());
-   this.loginResponse = JSON.parse(loginResponseString)
+   
   }
 
 
   getLoginResponseModel(){
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken !== null) {
+      let loginResponseString = this._crypto.decrypto(accessToken.toString());
+      this.loginResponse = JSON.parse(loginResponseString)
+    }
     return this.loginResponse;
   }
 }

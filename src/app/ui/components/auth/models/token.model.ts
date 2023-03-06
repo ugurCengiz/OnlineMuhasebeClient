@@ -1,7 +1,5 @@
-
-
 export class TokenModel{
-    token : string ="";
-    refreshToken : string ="";
-    refreshTokenExpires:string = "";
+    token: string = "";
+    refreshToken: string = "";
+    refreshTokenExpires: string = "";
 }

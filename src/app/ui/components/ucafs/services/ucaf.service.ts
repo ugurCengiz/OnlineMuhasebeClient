@@ -26,6 +26,7 @@ export class UcafService {
 
   getAll(callBack:(res:ResponseModel<UcafModel[]>)=>void){
     let model={companyId:this.loginResponse.company.companyId}
+    console.log("",this.loginResponse);
     this._http.post<ResponseModel<UcafModel[]>>("UCAFs/GetAllUCAF",model,res=>callBack(res));
   }
 

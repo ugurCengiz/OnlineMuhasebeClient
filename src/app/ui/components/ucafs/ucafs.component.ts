@@ -69,7 +69,7 @@ export class UcafsComponent implements OnInit {
 
   add(form: NgForm){
     if(form.valid){
-      this.isLoading=true
+      
       let model= new UcafModel();
       model.code= form.controls["code"].value;
       model.type= form.controls["type"].value;
@@ -80,7 +80,7 @@ export class UcafsComponent implements OnInit {
         form.controls["name"].setValue("");
         this.ucafType="M";
         this.getAll();
-        this.isLoading=false
+       
         this._toastr.toastr(ToastrType.Success,res.message,"Başarılı")
       })
       
@@ -89,12 +89,12 @@ export class UcafsComponent implements OnInit {
 
   update(form:NgForm){
     if(form.valid){
-      this.isLoading=true;
+     
      
       this._ucaf.update(this.updateModel,(res)=>{
        this.cancel();
         this.getAll();
-        this.isLoading=false
+       
         this._toastr.toastr(ToastrType.Info,res.message,"Başarılı")
       })
     }

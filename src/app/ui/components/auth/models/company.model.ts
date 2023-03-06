@@ -1,6 +1,4 @@
-
-
 export class CompanyModel{
-   companyId :string ="";
+   companyId: string = "";
    companyName: string = "";
 }
