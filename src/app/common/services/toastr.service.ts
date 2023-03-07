@@ -10,7 +10,7 @@ export class ToastrService {
 
   constructor() { }
 
-  toastr(type:ToastrType,message: string,title:string){
+  toastr(type:ToastrType,message: string,title:string=""){
       switch (type) {
         case ToastrType.Success:
             toastr.success(title,message)

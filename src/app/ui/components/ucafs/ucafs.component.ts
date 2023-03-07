@@ -10,22 +10,30 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ValidInputDirective } from 'src/app/common/directives/valid-input.directive';
 
 import { LoadingButtonComponent } from 'src/app/common/components/loading-button/loading-button.component';
-import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
+import {
+  ToastrService,
+  ToastrType,
+} from 'src/app/common/services/toastr.service';
 import { RemoveByIdUCAFModel } from './models/remove-by-id-ucaf.mode';
 import { SwalService } from 'src/app/common/services/swal.service';
-
+import { ExcelLoadingButtonComponent } from 'src/app/common/components/excel-loading-button/excel-loading-button.component';
+import { ReportRequestModel } from 'src/app/common/models/report-request-model';
+import { ReportService } from '../reports/services/report.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ucafs',
   standalone: true,
   imports: [
-    CommonModule, 
-    BlankComponent, 
+    CommonModule,
+    BlankComponent,
     SectionComponent,
     UcafPipe,
     FormsModule,
     ValidInputDirective,
-    LoadingButtonComponent],
+    LoadingButtonComponent,
+    ExcelLoadingButtonComponent,
+  ],
   templateUrl: './ucafs.component.html',
   styleUrls: ['./ucafs.component.css'],
 })
@@ -42,97 +50,104 @@ export class UcafsComponent implements OnInit {
       name: 'Hesap Planı',
     },
   ];
-  ucafType:string="M"
-  ucafs:UcafModel[]=[]
-  updateModel:UcafModel = new UcafModel;
-  filterText:string="";
-  isAddForm: boolean= false;
-  isUpdateForm:boolean=false;
-  isLoading:boolean=false
+  ucafType: string = 'M';
+  ucafs: UcafModel[] = [];
+  updateModel: UcafModel = new UcafModel();
+  filterText: string = '';
+  isAddForm: boolean = false;
+  isUpdateForm: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
-    private _ucaf:UcafService,
-    private _toastr : ToastrService,    
-    private _swal:SwalService
-  ){}
+    private _ucaf: UcafService,
+    private _toastr: ToastrService,
+    private _swal: SwalService,
+    private _report:ReportService,
+    private _router:Router
+  ) {}
   ngOnInit(): void {
     this.getAll();
   }
 
-  getAll(){
-   this._ucaf.getAll(res=>this.ucafs=res.data)
+  getAll() {
+    this._ucaf.getAll((res) => (this.ucafs = res.data));
   }
 
-  showAddForm(){
-    this.isAddForm= true;
+  showAddForm() {
+    this.isAddForm = true;
   }
 
-  add(form: NgForm){
-    if(form.valid){
-      
-      let model= new UcafModel();
-      model.code= form.controls["code"].value;
-      model.type= form.controls["type"].value;
-      model.name= form.controls["name"].value;
+  add(form: NgForm) {
+    if (form.valid) {
+      let model = new UcafModel();
+      model.code = form.controls['code'].value;
+      model.type = form.controls['type'].value;
+      model.name = form.controls['name'].value;
 
-      this._ucaf.add(model,(res)=>{
-        form.controls["code"].setValue("");
-        form.controls["name"].setValue("");
-        this.ucafType="M";
+      this._ucaf.add(model, (res) => {
+        form.controls['code'].setValue('');
+        form.controls['name'].setValue('');
+        this.ucafType = 'M';
         this.getAll();
-       
-        this._toastr.toastr(ToastrType.Success,res.message,"Başarılı")
-      })
-      
+
+        this._toastr.toastr(ToastrType.Success, res.message, 'Başarılı');
+      });
     }
   }
 
-  update(form:NgForm){
-    if(form.valid){
-     
-     
-      this._ucaf.update(this.updateModel,(res)=>{
-       this.cancel();
+  update(form: NgForm) {
+    if (form.valid) {
+      this._ucaf.update(this.updateModel, (res) => {
+        this.cancel();
         this.getAll();
-       
-        this._toastr.toastr(ToastrType.Info,res.message,"Başarılı")
-      })
+
+        this._toastr.toastr(ToastrType.Info, res.message, 'Başarılı');
+      });
     }
   }
 
-  get(model:UcafModel){
-   this.updateModel = {...model};
-   this.isUpdateForm=true;
-   this.isAddForm=false;
+  get(model: UcafModel) {
+    this.updateModel = { ...model };
+    this.isUpdateForm = true;
+    this.isAddForm = false;
   }
 
-  removeById(id:string){
-    this._swal.callSwal("Sil","Sil?","Hesap planı kodunu silmek istiyor musunuz ?",()=>
-    {
-       let model= new RemoveByIdUCAFModel();
-        model.id=id;
-  
-        this._ucaf.removeById(model,res=>{
+  removeById(id: string) {
+    this._swal.callSwal(
+      'Sil',
+      'Sil?',
+      'Hesap planı kodunu silmek istiyor musunuz ?',
+      () => {
+        let model = new RemoveByIdUCAFModel();
+        model.id = id;
+
+        this._ucaf.removeById(model, (res) => {
           this.getAll();
-          this._toastr.toastr(ToastrType.Info,res.message,"Silme Başarılı")
-        })
+          this._toastr.toastr(ToastrType.Info, res.message, 'Silme Başarılı');
+        });
       }
-    
-  )}
-
-  cancel(){
-    this.isAddForm=false;
-    this.isUpdateForm=false;
+    );
   }
 
-  SetTrClass(type:String){
-    if(type=="A")
-    return "text-danger"
-    else if(type =="G")
-    return "text-primary"
-    else
-    return ""
+  cancel() {
+    this.isAddForm = false;
+    this.isUpdateForm = false;
   }
 
+  SetTrClass(type: String) {
+    if (type == 'A') return 'text-danger';
+    else if (type == 'G') return 'text-primary';
+    else return '';
+  }
 
+  exportExcel() {
+    let model: ReportRequestModel= new ReportRequestModel();
+
+    model.name="Hesap Planı"
+
+    this._report.request(model, (res)=>{
+      this._toastr.toastr(ToastrType.Info,res.message)
+      this._router.navigateByUrl("/reports")
+    })
+  }
 }

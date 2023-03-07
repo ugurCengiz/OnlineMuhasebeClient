@@ -6,3 +6,17 @@ a{
 *{
     font-weight: 700;
 }
+
+tr:hover{
+    background-color: #f1f1f1;
+}
+
+.search{
+    width: 160px;
+    float: right;
+    transition: 1s;
+}
+.search:focus{
+    width: 70%;
+    transition: 1s;
+}
