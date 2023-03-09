@@ -60,8 +60,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
       this.result = res
       this.pageNumbers =[]
       for (let i = 0; i < res.totalPages; i++) {
-       this.pageNumbers.push(i+1);
-        
+       this.pageNumbers.push(i+1);        
       }
     });
     

@@ -30,8 +30,11 @@ bootstrapApplication(AppComponent,{
             },
             {
               path:"reports",
-              loadComponent:()=> import("./app/ui/components/reports/reports.component").then(c=>c.ReportsComponent)                  
-              
+              loadComponent:()=> import("./app/ui/components/reports/reports.component").then(c=>c.ReportsComponent)                           
+            },
+            {
+              path:"logs",
+              loadComponent:()=> import("./app/ui/components/logs/logs.component").then(c=>c.LogsComponent)  
             }
           ]             
           
