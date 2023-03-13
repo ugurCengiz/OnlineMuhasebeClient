@@ -16,6 +16,11 @@ export const Navigations : Navigation []=[
         icon:" fa fa-file-signature "
     },
     {
+        routerLink:"/book-entries",
+        name :"Yevmiye fişleri",
+        icon:" fa fa-book-open " 
+    },
+    {
         routerLink:"/reports",
         name :"Raporlar",
         icon:" fa fa-chart-pie "
@@ -24,6 +29,7 @@ export const Navigations : Navigation []=[
         routerLink:"/logs",
         name :"Log Kayıtları",
         icon:" fa fa-chalkboard-user " 
-    }
+    },
+    
     
 ]

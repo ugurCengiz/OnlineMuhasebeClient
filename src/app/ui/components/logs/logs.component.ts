@@ -24,7 +24,7 @@ export class LogsComponent implements OnInit {
   constructor(private _log:LogService){
     this.request.tableName="UniformChartOfAccount"
     this.request.pageNumber=1;
-    this.request.pageSize=10;
+    this.request.pageSize=5;
   }
   ngOnInit(): void {
     this.getLogsByTableName();
