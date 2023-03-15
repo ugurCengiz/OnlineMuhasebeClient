@@ -3,8 +3,10 @@ export class BookEntryModel{
     bookEntryNumber:string="";
     date:string ="";
     description:string ="";
+    companyId:string=""
     type:string ="";
     debit:number =0;
     credit:number =0;
     balance:number=0;
+    
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { MessageResponseModel } from 'src/app/common/models/message-response.model';
 import { PaginationResultModel } from 'src/app/common/models/pagination-result.model';
+import { RemoveByIdModel } from 'src/app/common/models/removeById.model';
 import { RequestModel } from 'src/app/common/models/request.model';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
 import { LoginResponseService } from 'src/app/common/services/login-response.service';
@@ -28,7 +29,22 @@ export class BookEntryService {
 
   create(model: CreateBookEntryModel, callBack: (res:MessageResponseModel)=> void){
     model.companyId = this._loginResponse.getLoginResponseModel().company.companyId;
-    this._http.post<MessageResponseModel>("BookEntries/CreateBookEntry",model,res=>{
+    this._http.post<MessageResponseModel>("BookEntries/Create",model,res=>{
+      callBack(res);
+    })
+  }
+
+
+  removeById(model: RemoveByIdModel, callBack: (res:MessageResponseModel)=> void){
+    model.companyId = this._loginResponse.getLoginResponseModel().company.companyId;
+    this._http.post<MessageResponseModel>("BookEntries/RemoveById",model,res=>{
+      callBack(res);
+    })
+  }
+
+  update(model: BookEntryModel, callBack: (res:MessageResponseModel)=> void){
+    model.companyId = this._loginResponse.getLoginResponseModel().company.companyId;
+    this._http.post<MessageResponseModel>("BookEntries/Update",model,res=>{
       callBack(res);
     })
   }

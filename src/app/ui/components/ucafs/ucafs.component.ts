@@ -8,18 +8,14 @@ import { UcafModel } from './models/ucaf.model';
 import { UcafPipe } from './pipes/ucaf.pipe';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ValidInputDirective } from 'src/app/common/directives/valid-input.directive';
-
 import { LoadingButtonComponent } from 'src/app/common/components/loading-button/loading-button.component';
-import {
-  ToastrService,
-  ToastrType,
-} from 'src/app/common/services/toastr.service';
-import { RemoveByIdUCAFModel } from './models/remove-by-id-ucaf.mode';
+import {  ToastrService,  ToastrType,} from 'src/app/common/services/toastr.service';
 import { SwalService } from 'src/app/common/services/swal.service';
 import { ExcelLoadingButtonComponent } from 'src/app/common/components/excel-loading-button/excel-loading-button.component';
 import { ReportRequestModel } from 'src/app/common/models/report-request-model';
 import { ReportService } from '../reports/services/report.service';
 import { Router } from '@angular/router';
+import { RemoveByIdModel } from 'src/app/common/models/removeById.model';
 
 @Component({
   selector: 'app-ucafs',
@@ -118,7 +114,7 @@ export class UcafsComponent implements OnInit {
       'Sil?',
       'Hesap planı kodunu silmek istiyor musunuz ?',
       () => {
-        let model = new RemoveByIdUCAFModel();
+        let model = new RemoveByIdModel();
         model.id = id;
 
         this._ucaf.removeById(model, (res) => {

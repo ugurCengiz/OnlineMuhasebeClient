@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { MessageResponseModel } from 'src/app/common/models/message-response.model';
+import { RemoveByIdModel } from 'src/app/common/models/removeById.model';
 import { ResponseModel } from 'src/app/common/models/response.model';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
 import { LoginResponseService } from 'src/app/common/services/login-response.service';
 import { LoginResponseModel } from '../../auth/models/login-response.model';
 
-import {  RemoveByIdUCAFModel } from '../models/remove-by-id-ucaf.mode';
+
 import { UcafModel } from '../models/ucaf.model';
 
 @Injectable({
@@ -40,7 +41,7 @@ export class UcafService {
     this._http.post<MessageResponseModel>("UCAFs/UpdateUCAF",model,(res)=>callBack(res))
   }
 
-  removeById( model:RemoveByIdUCAFModel, callBack:(res:MessageResponseModel)=>void){
+  removeById( model:RemoveByIdModel, callBack:(res:MessageResponseModel)=>void){
     model.companyId = this.loginResponse.company.companyId;
     this._http.post<MessageResponseModel>("UCAFs/RemoveByIdUCAF",model,(res)=>callBack(res))
   }
